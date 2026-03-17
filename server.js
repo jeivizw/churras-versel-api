@@ -1,5 +1,5 @@
 // =============================================================
-// server.js — Servidor Principal da API do Haruy Sushi
+// server.js — Servidor Principal da API do Brasa & Cia
 // =============================================================
 // Aula 6: API Middleware and Error Handling
 //
@@ -12,22 +12,22 @@
 //
 // Fluxo de uma Requisição (com Middlewares):
 //
-//  App Mobile
+//  App Mobile (Garçom)
 //     │
 //     ▼
 //  [cors()]              ← Middleware 1: Libera acesso de outras origens
 //     │
 //     ▼
-//  [express.json()]      ← Middleware 2: Transforma o body em JSON
+//  [express.json()]      ← Middleware 2: Transforma o pedido em JSON
 //     │
 //     ▼
-//  [logger]              ← Middleware 3: Anota a requisição no terminal
+//  [logger]              ← Middleware 3: Anota o pedido no terminal
 //     │
 //     ▼
-//  Rota correta          ← A requisição chega na rota certa
+//  Rota correta          ← A requisição chega na rota certa (Grelha)
 //  (ex: GET /api/produtos)
 //     │
-//     ▼ (se der erro)
+//     ▼ (se queimar a carne / der erro)
 //  [errorHandler]        ← Captura qualquer erro das rotas
 //     │
 //     ▼
@@ -84,7 +84,7 @@ app.use(logger);
 // Rota raiz — útil para verificar se o servidor está no ar.
 // Acesse: http://localhost:3000
 app.get('/', (req, res) => {
-    res.json({ mensagem: '🍣 Bem-vindo à API do Haruy Sushi! (Aula 6)' });
+    res.json({ mensagem: '🔥 Bem-vindo à API do Brasa & Cia! A churrasqueira está acesa! (Aula 6)' });
 });
 
 
@@ -106,12 +106,12 @@ app.use('/api/produtos', rotasProdutos);
 // Se a requisição chegou até aqui, nenhuma rota correspondeu.
 // Isso é o nosso "rota não encontrada" personalizado.
 //
-// Exemplo: GET /api/batata → cai aqui!
+// Exemplo: GET /api/picanha-vegana → cai aqui!
 // =============================================================
 app.use((req, res, next) => {
     res.status(404).json({
         sucesso: false,
-        mensagem: `Rota '${req.url}' não encontrada na API do Haruy Sushi.`
+        mensagem: `A rota '${req.url}' não foi encontrada no cardápio do Brasa & Cia.`
     });
 });
 
@@ -135,21 +135,21 @@ const PORTA = process.env.PORT || 3000;
 // assim que o servidor está pronto para receber requisições.
 app.listen(PORTA, () => {
     console.log('');
-    console.log('🚀 ================================');
-    console.log(`🚀 Servidor rodando!`);
-    console.log(`🚀 Acesse: ${PORTA}`);
-    console.log('🚀 ================================');
+    console.log('🥩 ================================');
+    console.log(`🔥 Servidor rodando e brasa quente!`);
+    console.log(`📍 Acesse: ${PORTA}`);
+    console.log('🥩 ================================');
     console.log('');
-    console.log('📋 Rotas disponíveis:');
+    console.log('📋 Cardápio de Rotas disponíveis:');
     console.log(`   GET    ${PORTA}/api/categorias`);
-    console.log(`   POST   ${PORTA}/api/categorias`);
+    console.log(`   POST   h${PORTA}/api/categorias`);
     console.log(`   GET    ${PORTA}/api/produtos`);
     console.log(`   GET    ${PORTA}/api/produtos/:id`);
     console.log(`   POST   ${PORTA}/api/produtos`);
     console.log(`   PUT    ${PORTA}/api/produtos/:id`);
     console.log(`   DELETE ${PORTA}/api/produtos/:id`);
     console.log('');
-    console.log('💣 Rota de teste de erro:');
+    console.log('💣 Rota de teste de erro (Deixar a carne cair no fogo):');
     console.log(`   GET    ${PORTA}/api/produtos/erro-teste`);
     console.log('');
 });
